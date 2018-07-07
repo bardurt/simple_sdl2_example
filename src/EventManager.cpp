@@ -31,9 +31,9 @@ Event EventManager::getKeyEvent()
             // only handle events if it is Key release
             if(e.key.type != SDL_KEYDOWN)
             {
+                // get the SDL key code
                 switch (e.key.keysym.sym)
                 {
-
                     case SDLK_SPACE:
                         return SPACE;
                     case SDLK_ESCAPE:
