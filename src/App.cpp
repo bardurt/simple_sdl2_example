@@ -1,6 +1,7 @@
 #include "App.h"
 #include <SDL.h>
 #include <stdio.h>
+
 App::App()
 {
     eventManager = new EventManager();
@@ -106,7 +107,7 @@ void App::handleEvent()
     // get last event from event manager
     eventCurrent = eventManager->getKeyEvent();
 
-    // check if ESC is pressed
+    // check and handle latest event
     switch (eventCurrent)
     {
         case ESCAPE:
@@ -142,7 +143,7 @@ void App::loop()
         // handle the event in the queue;
         handleEvent();
 
-        //Apply the image
+        //Add the new Image to screen surface
         SDL_BlitSurface( surfaceCurrent, NULL, screen, NULL );
 
         //Update the surface
