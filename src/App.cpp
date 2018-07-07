@@ -1,6 +1,7 @@
 #include "App.h"
 #include <SDL.h>
 #include <stdio.h>
+#include "Log.h"
 
 App::App()
 {
@@ -20,20 +21,23 @@ bool App::init()
     //Initialize SDL
     if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
     {
-        printf( "Error starting SDL2! SDL_Error: %s\n", SDL_GetError() );
+        Log::instance()->error("SDL_Init", "Could not start SDL");
         success = false;
     }
     else
     {
+        Log::instance()->info("App.cpp", "SDL Started successfully");
         //Create window
         window = SDL_CreateWindow( "Simple SDL 2 example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+
         if( window == NULL )
         {
-            printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+            Log::instance()->error("SDL_CreateWindow", SDL_GetError());
             success = false;
         }
         else
         {
+            Log::instance()->info("App.cpp", "Window created successfully");
             //Get window surface
             screen = SDL_GetWindowSurface( window );
         }
@@ -96,6 +100,8 @@ void App::close()
         eventManager = NULL;
     }
 
+    Log::instance()->destroy();
+
     //Quit SDL subsystems
     SDL_Quit();
 
@@ -112,24 +118,31 @@ void App::handleEvent()
     {
         case ESCAPE:
             running = false;
+            Log::instance()->info("App", "Esc key pressed");
             break;
         case EXIT:
             running = false;
+            Log::instance()->info("App", "Exit key pressed");
             break;
         case UP:
             surfaceCurrent = surfaceYellow;
+            Log::instance()->info("App", "Up key pressed");
             break;
         case LEFT:
             surfaceCurrent = surfaceBlue;
+            Log::instance()->info("App", "Left key pressed");
             break;
         case RIGHT:
             surfaceCurrent = surfaceRed;
+            Log::instance()->info("App", "Right key pressed");
             break;
         case DOWN:
             surfaceCurrent = surfaceGreen;
+            Log::instance()->info("App", "Down key pressed");
             break;
         case SPACE:
             surfaceCurrent = surfaceIntro;
+            Log::instance()->info("App", "Space key pressed");
             break;
     }
 }
