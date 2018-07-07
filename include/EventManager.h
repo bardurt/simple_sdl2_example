@@ -3,6 +3,9 @@
 
 #include "EventInterface.h"
 
+/*
+ Implementation of EventInterface.
+*/
 class EventManager : public EventInterface
 {
     public:

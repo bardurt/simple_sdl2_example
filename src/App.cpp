@@ -100,25 +100,20 @@ void App::close()
 
 }
 
-void App::loop()
+void App::handleEvent()
 {
-    bool quit = false;
 
-    Event e;
+    // get last event from event manager
+    eventCurrent = eventManager->getKeyEvent();
 
-    while ( !quit )
+    // check if ESC is pressed
+    switch (eventCurrent)
     {
-        // get last event from event manager
-        e = eventManager->getKeyEvent();
-
-        // check if ESC is pressed
-        switch (e)
-        {
         case ESCAPE:
-            quit = true;
+            running = false;
             break;
         case EXIT:
-            quit = true;
+            running = false;
             break;
         case UP:
             surfaceCurrent = surfaceYellow;
@@ -135,7 +130,17 @@ void App::loop()
         case SPACE:
             surfaceCurrent = surfaceIntro;
             break;
-        }
+    }
+}
+
+void App::loop()
+{
+    running = true;
+
+    while ( running )
+    {
+        // handle the event in the queue;
+        handleEvent();
 
         //Apply the image
         SDL_BlitSurface( surfaceCurrent, NULL, screen, NULL );

@@ -3,6 +3,9 @@
 
 #include "KeyEvents.h"
 
+/*
+ Interface for event handling.
+*/
 class EventInterface
 {
 

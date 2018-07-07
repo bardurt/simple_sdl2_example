@@ -6,6 +6,9 @@
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
+/*
+ Main program class which will use SDL Library
+*/
 class App
 {
     public:
@@ -14,6 +17,12 @@ class App
         void start();
 
     protected:
+
+        //Flag to show that the app should loop
+        bool running;
+
+        //Keyboard event
+        Event eventCurrent;
 
         //The window we'll be rendering to
         SDL_Window* window = NULL;
@@ -36,6 +45,7 @@ class App
 
         bool init();
         bool loadMedia();
+        void handleEvent();
         void loop();
         void close();
     private:
