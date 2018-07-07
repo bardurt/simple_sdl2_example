@@ -2,6 +2,9 @@
 #define LOG_H
 #include<string>
 
+/*
+ Logging class for logging information to console.
+*/
 class Log
 {
     public:
@@ -9,7 +12,6 @@ class Log
         void destroy();
         void info(std::string origin, std::string message);
         void error(std::string origin, std::string message);
-
 
     protected:
 

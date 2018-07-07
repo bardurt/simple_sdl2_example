@@ -28,22 +28,27 @@ Event EventManager::getKeyEvent()
         }
         else
         {
-            switch (e.key.keysym.sym)
+            // only handle events if it is Key release
+            if(e.key.type != SDL_KEYDOWN)
             {
-                case SDLK_SPACE:
-                    return SPACE;
-                case SDLK_ESCAPE:
-                    return ESCAPE;
-                case SDLK_UP:
-                    return UP;
-                case SDLK_DOWN:
-                    return DOWN;
-                case SDLK_LEFT:
-                    return LEFT;
-                case SDLK_RIGHT:
-                    return RIGHT;
-                default:
-                    return NONE;
+                switch (e.key.keysym.sym)
+                {
+
+                    case SDLK_SPACE:
+                        return SPACE;
+                    case SDLK_ESCAPE:
+                        return ESCAPE;
+                    case SDLK_UP:
+                        return UP;
+                    case SDLK_DOWN:
+                        return DOWN;
+                    case SDLK_LEFT:
+                        return LEFT;
+                    case SDLK_RIGHT:
+                        return RIGHT;
+                    default:
+                        return NONE;
+                }
             }
         }
     }
