@@ -12,13 +12,14 @@ class App
         App();
         virtual ~App();
         void start();
+
     protected:
 
         //The window we'll be rendering to
-        SDL_Window* gWindow = NULL;
+        SDL_Window* window = NULL;
 
         //The surface contained by the window
-        SDL_Surface* gScreenSurface = NULL;
+        SDL_Surface* screen = NULL;
 
         // the current surface which should be drawn
         SDL_Surface* surfaceCurrent = NULL;
@@ -30,6 +31,7 @@ class App
         SDL_Surface* surfaceYellow = NULL;
         SDL_Surface* surfaceIntro = NULL;
 
+        // Manager for handling button events
         EventManager* eventManager = NULL;
 
         bool init();

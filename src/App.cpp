@@ -19,14 +19,14 @@ bool App::init()
     //Initialize SDL
     if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
     {
-        printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+        printf( "Error starting SDL2! SDL_Error: %s\n", SDL_GetError() );
         success = false;
     }
     else
     {
         //Create window
-        gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
-        if( gWindow == NULL )
+        window = SDL_CreateWindow( "Simple SDL 2 example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+        if( window == NULL )
         {
             printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
             success = false;
@@ -34,7 +34,7 @@ bool App::init()
         else
         {
             //Get window surface
-            gScreenSurface = SDL_GetWindowSurface( gWindow );
+            screen = SDL_GetWindowSurface( window );
         }
     }
 
@@ -47,6 +47,7 @@ bool App::loadMedia()
     //Loading success flag
     bool success = true;
 
+    // load images
     surfaceBlue = SDL_LoadBMP("C:/code_sources/sdl2/img/blue.bmp");
     surfaceGreen = SDL_LoadBMP("C:/code_sources/sdl2/img/green.bmp");
     surfaceRed = SDL_LoadBMP("C:/code_sources/sdl2/img/red.bmp");
@@ -54,10 +55,11 @@ bool App::loadMedia()
     surfaceIntro = SDL_LoadBMP("C:/code_sources/sdl2/img/intro.bmp");
     surfaceCurrent = surfaceIntro;
 
+    // check if there was an error loading the images
     if(surfaceBlue == NULL || surfaceRed == NULL || surfaceGreen == NULL || surfaceYellow == NULL || surfaceIntro == NULL)
     {
         printf( "Error loading images ", SDL_GetError() );
-		success = false;
+        success = false;
     }
 
     return success;
@@ -83,11 +85,8 @@ void App::close()
     surfaceIntro = NULL;
 
     //Destroy window
-    SDL_DestroyWindow( gWindow );
-    gWindow = NULL;
-
-    //Quit SDL subsystems
-    SDL_Quit();
+    SDL_DestroyWindow( window );
+    window = NULL;
 
     // release the event manager if it is not NULL
     if(eventManager != NULL)
@@ -95,6 +94,9 @@ void App::close()
         delete eventManager;
         eventManager = NULL;
     }
+
+    //Quit SDL subsystems
+    SDL_Quit();
 
 }
 
@@ -112,34 +114,34 @@ void App::loop()
         // check if ESC is pressed
         switch (e)
         {
-            case ESCAPE:
-                quit = true;
-                break;
-            case EXIT:
-                quit = true;
-                break;
-            case UP:
-                surfaceCurrent = surfaceYellow;
-                break;
-            case LEFT:
-                surfaceCurrent = surfaceBlue;
-                break;
-            case RIGHT:
-                surfaceCurrent = surfaceRed;
-                break;
-            case DOWN:
-                surfaceCurrent = surfaceGreen;
-                break;
-            case SPACE:
-                surfaceCurrent = surfaceIntro;
-                break;
+        case ESCAPE:
+            quit = true;
+            break;
+        case EXIT:
+            quit = true;
+            break;
+        case UP:
+            surfaceCurrent = surfaceYellow;
+            break;
+        case LEFT:
+            surfaceCurrent = surfaceBlue;
+            break;
+        case RIGHT:
+            surfaceCurrent = surfaceRed;
+            break;
+        case DOWN:
+            surfaceCurrent = surfaceGreen;
+            break;
+        case SPACE:
+            surfaceCurrent = surfaceIntro;
+            break;
         }
 
         //Apply the image
-        SDL_BlitSurface( surfaceCurrent, NULL, gScreenSurface, NULL );
+        SDL_BlitSurface( surfaceCurrent, NULL, screen, NULL );
 
         //Update the surface
-        SDL_UpdateWindowSurface( gWindow );
+        SDL_UpdateWindowSurface( window );
 
     }
 
@@ -147,8 +149,8 @@ void App::loop()
 
 void App::start()
 {
-
     bool ready = true;
+
     //Start up SDL and create window
     if( !init() )
     {
@@ -163,7 +165,7 @@ void App::start()
 
         ready = false;
     }
-    //Load media
+
     if(ready)
     {
         loop();

@@ -1,5 +1,5 @@
-#ifndef EVENTINTERFACE_H_INCLUDED
-#define EVENTINTERFACE_H_INCLUDED
+#ifndef EVENTINTERFACE_H
+#define EVENTINTERFACE_H
 
 #include "KeyEvents.h"
 
@@ -11,4 +11,4 @@ public:
 	virtual ~EventInterface(){}
 	virtual Event getKeyEvent() = 0;
 };
-#endif // EVENTINTERFACE_H_INCLUDED
+#endif // EVENTINTERFACE_H
