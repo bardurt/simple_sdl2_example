@@ -1,0 +1,4 @@
+bin/
+obj/
+sdl2.cbp
+sdl2.depend
