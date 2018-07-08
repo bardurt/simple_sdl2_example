@@ -48,6 +48,7 @@ Event EventManager::getKeyEvent()
                         return RIGHT;
                     default:
                         return NONE;
+
                 }
             }
         }

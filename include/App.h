@@ -2,6 +2,7 @@
 #define APP_H
 #include <SDL.h>
 #include "EventManager.h"
+#include "SoundManager.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -42,6 +43,8 @@ class App
 
         // Manager for handling button events
         EventManager* eventManager = NULL;
+
+        SoundManager* soundManager = NULL;
 
         bool init();
         bool loadMedia();

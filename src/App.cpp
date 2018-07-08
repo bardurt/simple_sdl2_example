@@ -6,6 +6,7 @@
 App::App()
 {
     eventManager = new EventManager();
+    soundManager = new SoundManager();
 }
 
 App::~App()
@@ -19,9 +20,9 @@ bool App::init()
     bool success = true;
 
     //Initialize SDL
-    if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+    if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO ) < 0)
     {
-        Log::instance()->error("SDL_Init", "Could not start SDL");
+        Log::instance()->error("SDL_Init", SDL_GetError());
         success = false;
     }
     else
@@ -63,7 +64,7 @@ bool App::loadMedia()
     // check if there was an error loading the images
     if(surfaceBlue == NULL || surfaceRed == NULL || surfaceGreen == NULL || surfaceYellow == NULL || surfaceIntro == NULL)
     {
-        printf( "Error loading images ", SDL_GetError() );
+        Log::instance()->error("App", SDL_GetError() );
         success = false;
     }
 
@@ -100,6 +101,12 @@ void App::close()
         eventManager = NULL;
     }
 
+    if(soundManager != NULL)
+    {
+        delete soundManager;
+        soundManager = NULL;
+    }
+
     Log::instance()->destroy();
 
     //Quit SDL subsystems
@@ -113,9 +120,12 @@ void App::handleEvent()
     // get last event from event manager
     eventCurrent = eventManager->getKeyEvent();
 
+
+
     // check and handle latest event
     switch (eventCurrent)
     {
+
         case ESCAPE:
             running = false;
             Log::instance()->info("App", "Esc key pressed");
